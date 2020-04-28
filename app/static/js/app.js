@@ -26,6 +26,35 @@ Vue.component('app-header', {
     }
 });
 
+Vue.component('news-list', { 
+    template: `
+      <div class="news">
+        <h2>News</h2>
+          <ul class="news__list">
+          <li v-for="article in articles" class="news__item">{{ article.title }}</li>
+          </ul> 
+      </div>
+    `,
+    created: function() { 
+      let self = this;
+      fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=456ef010253b4859be77d4186f0ef38c') 
+        .then(function(response) {
+          return response.json(); 
+        })
+        .then(function(data) { 
+          console.log(data);
+          self.articles = data.articles;
+        }); 
+    },
+    data: function() {
+      return {
+          articles: []
+      }
+}
+
+});
+
+
 Vue.component('app-footer', {
     template: `
         <footer>
